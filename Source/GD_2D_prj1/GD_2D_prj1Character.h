@@ -61,6 +61,11 @@ protected:
 public:
 	AGD_2D_prj1Character();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerAttributes|Stamina")
+	int Stamina;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerAttributes|Stamina")
+	int MaxStamina = 100;
+
 	/** Returns SideViewCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
