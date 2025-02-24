@@ -123,6 +123,7 @@ void AGD_2D_prj1Character::SetupPlayerInputComponent(class UInputComponent* Play
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	Input->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AGD_2D_prj1Character::MoveRight);
+	Input->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &AGD_2D_prj1Character::TouchStarted);
 }
 
 void AGD_2D_prj1Character::MoveRight(const FInputActionValue& Value)
@@ -137,7 +138,7 @@ void AGD_2D_prj1Character::MoveRight(const FInputActionValue& Value)
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value.Get<float>());
 }
 
-void AGD_2D_prj1Character::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
+void AGD_2D_prj1Character::TouchStarted(const FInputActionValue& Value)
 {
 	// Jump on any touch
 	Jump();
