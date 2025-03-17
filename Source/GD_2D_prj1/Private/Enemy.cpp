@@ -2,6 +2,7 @@
 
 
 #include "Enemy.h"
+#include "AIMovement.h"
 #include "PaperFlipbookComponent.h"
 
 // Sets default values
@@ -16,6 +17,9 @@ AEnemy::AEnemy()
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 
 	Collider->SetupAttachment(RootComponent);
+
+	AIMovement = CreateDefaultSubobject<AAIMovement>(TEXT("AI Movement"));
+	AIMovement->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -41,3 +45,9 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AEnemy::MoveRight(const FInputActionValue& Value) {
+	SetActorLocation(GetActorLocation() + FVector::ForwardVector * Value.Get<float>());
+}
+void AEnemy::MoveUp(const FInputActionValue& Value) {
+	SetActorLocation(GetActorLocation() + FVector::UpVector * Value.Get<float>());
+}
