@@ -75,7 +75,42 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	// Enable replication on the Sprite component so animations show up when networked
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
+
+	// Bind the overlap event 
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AGD_2D_prj1Character::OnOverlapBegin);
+
+
+
 }
+
+void AGD_2D_prj1Character::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	// Handle overlap with an  
+	UE_LOG(LogTemp, Warning, TEXT("Overlapped"));
+	if (OtherActor && (OtherActor != this))
+	{
+		// Print all tags of the other actor 
+		for (const FName& Tag : OtherActor->Tags)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Collided with an object with tag: %s"), *Tag.ToString());
+		}
+		if (OtherActor->ActorHasTag("Enemy"))
+		{
+			
+			//Calculate bounce direction 
+			FVector BounceDirection = GetActorLocation() - OtherActor->GetActorLocation();
+			BounceDirection.Normalize();
+			// Apply the force 
+			FVector Impulse = BounceDirection * 2500.0f;
+			//push the player
+			GetCharacterMovement()->AddImpulse(Impulse, true);
+
+
+		}
+
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Animation
